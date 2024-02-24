@@ -1,16 +1,19 @@
 const ws = require('ws')
 class Client {
-    constructor(url, options = {}) {
+    constructor(url, auth = 'changeme') {
         this.url = url;
-        this.options = options;
-        this.wscl = new ws(url,options)
+        this.auth = auth
+        this.wscl = new ws(url, {
+            headers: {
+                authorization: `Bearer ${auth}`
+            }
+        })
     }
 
     connect() {
         const wss = this.wscl
         wss.on('open', () => {
             console.log(`Connected to ${this.url}`)
-            let ptf;
             const readline = require('node:readline').createInterface({
                 input: process.stdin,
                 output: process.stdout,
@@ -26,3 +29,5 @@ class Client {
         wss.on('close', (code, reason) => console.log(`Connected closed with code: ${code} and reason: ${reason}`))
     }
 }
+
+module.exports = Client

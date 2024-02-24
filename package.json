@@ -17,7 +17,7 @@
     "url": "https://github.com/ServerDeveloper9447/rootless-ssh/issues"
   },
   "engines": {
-    "node": ">=15"
+    "node": ">=16"
   },
   "os": ["linux","darwin","win32"]
 }

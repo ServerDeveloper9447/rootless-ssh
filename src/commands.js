@@ -23,9 +23,9 @@ module.exports = (ws,cmd) => {
     if (cmd.startsWith('dirchange>')) {
         try {
             process.chdir(cmd.substring('dirchange>'.length))
-            ws.send(JSON.stringify({ status: 200, path: formatPath(process.cwd())}))
+            ws.send(JSON.stringify({ status: 200, path: formatPath(process.cwd()),user:require('os').userInfo().username}))
         } catch (err) {
-            ws.send(JSON.stringify({ status: 400, message: err }))
+            ws.send(JSON.stringify({ status: 400, output: err,path: formatPath(process.cwd()),user:require('os').userInfo().username }))
         }
         return 1;
     }

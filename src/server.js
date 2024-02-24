@@ -19,7 +19,16 @@ function formatPath(currentPath) {
     }
 }
 class Server {
-    constructor(options = {port:3000,auth:"changeme",path:'/ssh'}) {
+    constructor(options = {port:3000,auth:"changeme",path:'/ssh',welcomemsg:`__________               __  .__                           _________ _________ ___ ___  
+\______   \ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \ 
+    |       _//  _ \ /  _ \   __\  | _/ __ \ /  ___//  ___/  \_____  \ \_____  \/    ~    \
+    |    |   (  <_> |  <_> )  | |  |_\  ___/ \___ \ \___ \   /        \/        \    Y    /
+    |____|_  /\____/ \____/|__| |____/\___  >____  >____  > /_______  /_______  /\___|_  / 
+        \/                             \/     \/     \/          \/        \/       \/  
+
+
+Welcome!
+Successfully connected.`}) {
         this.options = options
         this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path})
     }
@@ -35,13 +44,13 @@ class Server {
                     return;
                 }
             }
-            ws.send(JSON.stringify({status:200,message:"Connection success.",info:{platform:process.platform,path:formatPath(process.cwd())}}))
+            ws.send(JSON.stringify({status:200,output:options?.welcomemsg,info:{platform:process.platform,path:formatPath(process.cwd()),user:require('os').userInfo().username}}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
                 if (funcs(ws,cmd) == 1) return;
                 exec(cmd, (err, stdout, stderr) => {
-                    ws.send(JSON.stringify({status:200,output:err || stdout.toString() || stderr.toString(),path:formatPath(process.cwd())}))
+                    ws.send(JSON.stringify({status:200,output:err || stdout.toString() || stderr.toString(),path:formatPath(process.cwd()),user:require('os').userInfo().username}))
                 })
             })
             ws.on('close', () => {
@@ -51,5 +60,4 @@ class Server {
     }
 }
 
-const s = new Server({})
-s.start()
+module.exports = Server
