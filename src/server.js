@@ -4,12 +4,13 @@ const ws = require('ws').Server
 const funcs = require('./commands')
 function formatPath(currentPath) {
     let homeDir;
-    const envs = {
-        win32: process.env.USERPROFILE.slice(0, 2) + process.env.HOMEPATH.replaceAll("/","\\"),
-        linux: process.env.HOME,
-        darwin: process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
+    if (process.platform == 'win32') {
+        homeDir = process.env.USERPROFILE.slice(0, 2) + process.env.HOMEPATH.replaceAll("/", "\\");
+    } else if (process.platform == 'linux') {
+        homeDir = process.env.HOME
+    } else if (process.platform == 'darwin') {
+        homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
     }
-    homeDir = envs[process.platform]
     if (currentPath.startsWith(homeDir)) {
         return '~' + currentPath.slice(homeDir.length).replaceAll("\\","/");
     } else if (currentPath === '/') {
@@ -30,7 +31,7 @@ class Server {
 Welcome!
 Successfully connected.`}) {
         this.options = options
-        this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path})
+        this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path })
     }
 
     start() {
@@ -48,7 +49,7 @@ Successfully connected.`}) {
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
-                if (funcs(ws,cmd) == 1) return;
+                if (funcs(ws, cmd) == 1) return;
                 exec(cmd, (err, stdout, stderr) => {
                     ws.send(JSON.stringify({status:200,output:err || stdout.toString() || stderr.toString(),path:formatPath(process.cwd()),user:require('os').userInfo().username}))
                 })
@@ -60,4 +61,7 @@ Successfully connected.`}) {
     }
 }
 
-module.exports = Server
+//module.exports = Server
+
+const s = new Server()
+s.start()

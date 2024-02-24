@@ -19,8 +19,8 @@ class Client {
                 output: process.stdout,
             })
             wss.on('message', (data) => {
-                console.log(JSON.parse(data.toString()).output)
                 const dt = JSON.parse(data.toString())
+                console.log(!dt?.output ? '\n' : dt?.output)
                 readline.question(`${dt.user}@${dt.path}$ `, (cmd) => {
                     wss.send(cmd)
                 })
