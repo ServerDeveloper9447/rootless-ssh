@@ -20,7 +20,8 @@ class Client {
             })
             wss.on('message', (data) => {
                 console.log(JSON.parse(data.toString()).output)
-                readline.question(`${JSON.parse(data.toString()).path}$ `, (cmd) => {
+                const dt = JSON.parse(data.toString())
+                readline.question(`${dt.user}@${dt.path}$ `, (cmd) => {
                     wss.send(cmd)
                 })
             })

@@ -38,6 +38,13 @@ const client = new Client(url /* wss://<hostname>:<port> */,auth /* auth passwor
 
 client.connect();
 ```
+# Custom Commands
+Due to the technical limitations, we had to introduce some custom cli commands for certain works.
+```yml
+dirchange: Works as a cd or chdir command. Same syntax.
+```
+
+More commands will be introduced as we recieve requests.
 
 # Bugs
 While this package is being actively tested, please know that bugs may appear. If you come across a bug, report in the issues tab on our [github](https://github.com/ServerDeveloper9447/rootless-ssh/issues 'Having an issue? Click here').

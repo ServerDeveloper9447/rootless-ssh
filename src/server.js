@@ -44,7 +44,7 @@ Successfully connected.`}) {
                     return;
                 }
             }
-            ws.send(JSON.stringify({status:200,output:options?.welcomemsg,info:{platform:process.platform,path:formatPath(process.cwd()),user:require('os').userInfo().username}}))
+            ws.send(JSON.stringify({status:200,output:options?.welcomemsg,platform:process.platform,path:formatPath(process.cwd()),user:require('os').userInfo().username}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
