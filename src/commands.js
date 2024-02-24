@@ -19,13 +19,19 @@ function formatPath(currentPath) {
         return currentPath.replaceAll("\\","/");
     }
 }
-module.exports = (ws,cmd) => {
+module.exports = (ws, cmd) => {
+    let user;
+    try {
+        user = require('os').userInfo().username
+    } catch (err) {
+        user = "localuser"
+    }
     if (cmd.startsWith('dirchange>')) {
         try {
             process.chdir(cmd.substring('dirchange>'.length))
-            ws.send(JSON.stringify({ status: 200, path: formatPath(process.cwd()),user:require('os').userInfo().username}))
+            ws.send(JSON.stringify({ status: 200, path: formatPath(process.cwd()),user}))
         } catch (err) {
-            ws.send(JSON.stringify({ status: 400, output: err,path: formatPath(process.cwd()),user:require('os').userInfo().username }))
+            ws.send(JSON.stringify({ status: 400, output: err,path: formatPath(process.cwd()),user}))
         }
         return 1;
     }
