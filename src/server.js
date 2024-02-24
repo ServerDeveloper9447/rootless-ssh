@@ -61,7 +61,4 @@ Successfully connected.`}) {
     }
 }
 
-//module.exports = Server
-
-const s = new Server()
-s.start()
+module.exports = Server
