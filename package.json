@@ -1,0 +1,14 @@
+{
+  "name": "rootless-ssh",
+  "version": "1.0.0",
+  "description": "This package works as a workaround ssh by using websockets and child_process. It is suitable for people who can't have ssh on their server or don't have root access to install ssh.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ServerDeveloper9447",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
