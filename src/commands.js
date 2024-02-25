@@ -5,12 +5,13 @@
  */
 function formatPath(currentPath) {
     let homeDir;
-    const envs = {
-        win32: process.env.USERPROFILE.slice(0, 2) + process.env.HOMEPATH.replaceAll("/","\\"),
-        linux: process.env.HOME,
-        darwin: process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
+    if (process.platform == 'win32') {
+        homeDir = process.env.USERPROFILE.slice(0, 2) + process.env.HOMEPATH.replaceAll("/", "\\");
+    } else if (process.platform == 'linux') {
+        homeDir = process.env.HOME
+    } else if (process.platform == 'darwin') {
+        homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
     }
-    homeDir = envs[process.platform]
     if (currentPath.startsWith(homeDir)) {
         return '~' + currentPath.slice(homeDir.length).replaceAll("\\","/");
     } else if (currentPath === '/') {
