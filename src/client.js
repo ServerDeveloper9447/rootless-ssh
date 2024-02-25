@@ -37,7 +37,7 @@ class Client {
         })
         wss.on('error', (err) => { throw new Error(err) })
         wss.on('close', (code, reason) => {
-            console.log(`Connected closed with code: ${code} and reason: ${reason}`)
+            console.log(`\nConnected closed with code: ${code} and reason: ${reason}`)
             process.exit(0)
         })
     }
