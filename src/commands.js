@@ -35,5 +35,13 @@ module.exports = (ws, cmd) => {
         }
         return 1;
     }
+    if (cmd.startsWith('download>')) {
+        try {
+            const data = require('fs').readFileSync(cmd.substring('download>'))
+            ws.send(JSON.stringify({status:200,output:"File sent",file:{content:data}}))
+        } catch (err) {
+            ws.send(JSON.stringify({status:400,output:"Cannot send file."}))
+        }
+    }
     return 0;
 }
