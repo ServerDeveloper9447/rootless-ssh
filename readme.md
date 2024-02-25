@@ -19,10 +19,11 @@ const { Server } = require('rootless-ssh');
 
 const server = new Server({
     // these are default values
-    welcomemsg: '',
+    welcomemsg: <advertisementText>, // if you don't want any welcome message, you have to explicitly set it to null.
     port: 3000,
     path: '/ssh',
-    auth: 'changeme' // unique token that needs to be in the `authorization` header when connecting to websocket as `Bearer <password>`
+    auth: 'changeme' // unique token that needs to be in the `authorization` header when connecting to websocket as `Bearer <password>`,
+    server: <ExpressApp> /*or*/ <HttpServer>
 });
 
 server.start();
@@ -41,7 +42,8 @@ client.connect();
 # Custom Commands
 Due to the technical limitations, we had to introduce some custom cli commands for certain works.
 ```yml
-dirchange: Works as a cd or chdir command. Same syntax.
+dirchange> : Works as a cd or chdir command. Same syntax.
+disconnect> : Disconnects from the server.
 ```
 
 More commands will be introduced as we recieve requests.

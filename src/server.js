@@ -29,13 +29,17 @@ class Server {
 
 
 Welcome!
-Successfully connected.`}) {
+Successfully connected.`},server) {
         this.options = options
-        this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path })
         try {
             this.user = require('os').userInfo().username
         } catch (err) {
             this.user = "localuser"
+        }
+        if (!server) {
+            this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path })
+        } else {
+            this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path, server })
         }
     }
 
@@ -51,7 +55,16 @@ Successfully connected.`}) {
                     return;
                 }
             }
-            ws.send(JSON.stringify({status:200,output:options?.welcomemsg,platform:process.platform,path:formatPath(process.cwd()),user}))
+            ws.send(JSON.stringify({status:200,output:Object.is(options?.welcomemsg,null) ? "" : `__________               __  .__                           _________ _________ ___ ___  
+\______   \ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \ 
+    |       _//  _ \ /  _ \   __\  | _/ __ \ /  ___//  ___/  \_____  \ \_____  \/    ~    \
+    |    |   (  <_> |  <_> )  | |  |_\  ___/ \___ \ \___ \   /        \/        \    Y    /
+    |____|_  /\____/ \____/|__| |____/\___  >____  >____  > /_______  /_______  /\___|_  / 
+        \/                             \/     \/     \/          \/        \/       \/  
+
+
+Welcome!
+Successfully connected.`,platform:process.platform,path:formatPath(process.cwd()),user}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
