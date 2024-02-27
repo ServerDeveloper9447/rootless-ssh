@@ -15,7 +15,7 @@ class Client {
         const url = this.url
         console.log(`Attempting a connection to ${url}`)
         wss.on('open', () => {
-            console.log(`\x1b[32mConnected to ${url}`)
+            console.log(`\x1b[32mConnected to ${url}\x1b[0m`)
             const readline = require('node:readline').createInterface({
                 input: process.stdin,
                 output: process.stdout,
@@ -34,7 +34,7 @@ class Client {
         })
         wss.on('error', (err) => { throw new Error(err) })
         wss.on('close', (code, reason) => {
-            console.log(`\n\x1b[31mConnection closed with code: ${code} and reason: ${reason}`)
+            console.log(`\n\x1b[31mConnection closed with code: ${code} and reason: ${reason}\x1b[0m`)
             process.exit(0)
         })
     }

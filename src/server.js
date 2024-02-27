@@ -45,7 +45,7 @@ __________               __  .__                           _________ _________ _
         \/                             \/     \/     \/          \/        \/       \/  
 
 Welcome!
-\x1b[32mSuccessfully connected.` : options?.welcomemsg, logging: !options?.logging ? {input:false,output:false} : options?.logging }
+\x1b[32mSuccessfully connected.\x1b[0m` : options?.welcomemsg, logging: !options?.logging ? {input:false,output:false} : options?.logging }
         try {
             this.user = require('os').userInfo().username
         } catch (err) {
@@ -60,7 +60,7 @@ Welcome!
     }
 
     start() {
-        console.log(`\x1b[32mServer is ready.`);
+        console.log(`\x1b[32mServer is ready.\x1b[0m`);
         const options = this.options
         const startingDir = process.cwd()
         const user = this.user
@@ -70,11 +70,11 @@ Welcome!
                 if (req.headers?.authorization.split(" ")[1] != options.auth) {
                     ws.send(JSON.stringify({ status: 401, message: "Unauthorized" }))
                     ws.close();
-                    console.log("\x1b[31mRefused access to user because of bad auth token.");
+                    console.log("\x1b[31mRefused access to user because of bad auth token.\x1b[0m");
                     return;
                 }
             }
-            console.log("\x1b[32mUser connected.")
+            console.log("\x1b[32mUser connected.\x1b[0m")
             ws.send(JSON.stringify({
                 status: 200, output: Object.is(options?.welcomemsg, null) ? "" : `
 __________               __  .__                           _________ _________ ___ ___  
@@ -85,7 +85,7 @@ __________               __  .__                           _________ _________ _
         \/                             \/     \/     \/          \/        \/       \/  
 
 Welcome!
-\x1b[32mSuccessfully connected.`,platform:process.platform,path:formatPath(process.cwd()),user}))
+\x1b[32mSuccessfully connected.\x1b[0m`,platform:process.platform,path:formatPath(process.cwd()),user}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
@@ -96,12 +96,12 @@ Welcome!
                         console.log(`Command recieved: ${cmd}`)
                     }
                     if (logs.output) {
-                        console.log(exec)
+                        console.log(exec.toString())
                     }
                 } catch (err) {
                     console.error(err)
                 }
-                ws.send(JSON.stringify({status:200,output:!exec ? "" : exec,path:formatPath(process.cwd()),user}))
+                ws.send(JSON.stringify({status:200,output:!exec ? "" : exec.toString(),path:formatPath(process.cwd()),user}))
             })
             ws.on('close', () => {
                 process.chdir(startingDir)
@@ -110,7 +110,7 @@ Welcome!
     }
 
     stop() {
-        console.log("\x1b[31mClosing server.");
+        console.log("\x1b[31mClosing server.\x1b[0m");
         this.wsServer.close();
     }
 }
