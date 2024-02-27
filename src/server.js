@@ -1,5 +1,5 @@
 
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
 const ws = require('ws').Server
 const funcs = require('./commands')
 function formatPath(currentPath) {
@@ -69,9 +69,8 @@ Successfully connected.`,platform:process.platform,path:formatPath(process.cwd()
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
                 if (funcs(ws, cmd) == 1) return;
-                exec(cmd, (err, stdout, stderr) => {
-                    ws.send(JSON.stringify({status:200,output:err || stdout.toString() || stderr.toString(),path:formatPath(process.cwd()),user}))
-                })
+                const exec = execSync(cmd);
+                ws.send(JSON.stringify({status:200,output:!exec ? "" : exec,path:formatPath(process.cwd()),user}))
             })
             ws.on('close', () => {
                 process.chdir(startingDir)

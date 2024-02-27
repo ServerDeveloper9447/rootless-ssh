@@ -1,5 +1,5 @@
 # Rootless SSH
-### A npm package taking advantage of the `exec()` of `child_process` to workaround SSH.
+### A npm package taking advantage of the `execSync()` of `child_process` to workaround SSH.
 
 Specially made for [replit](https://replit.com/pricing 'Replit Pricing') users who can't pay for ssh access.
 Works on any device as long as it runs windows, linux or mac.
