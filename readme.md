@@ -1,4 +1,5 @@
 # Rootless SSH
+
 ### A npm package taking advantage of the `execSync()` of `child_process` to workaround SSH.
 
 Specially made for [replit](https://replit.com/pricing 'Replit Pricing') users who can't pay for ssh access.
@@ -20,13 +21,21 @@ const { Server } = require('rootless-ssh');
 const server = new Server({
     // these are default values
     welcomemsg: <advertisementText>, // if you don't want any welcome message, you have to explicitly set it to null.
-    port: 3000,
+    port: 3000, // optional if server is not null
     path: '/ssh',
     auth: 'changeme' // unique token that needs to be in the `authorization` header when connecting to websocket as `Bearer <password>`,
-    server: <ExpressApp> /*or*/ <HttpServer>
+    server: <ExpressApp> /*or*/ <HttpServer>,
+    logging: {
+        input: false, // set to true to log commands
+        output: false // set to true to log command outputs
+    }
 });
 
+// to start the server
 server.start();
+
+// to close the server
+server.stop();
 ```
 **Note: Make sure to change the `auth` property as this can give an attacker access to your terminal. Even without root access, an attacker can do much damage to your system.**
 
@@ -37,7 +46,14 @@ const { Client } = require('rootless-ssh');
 
 const client = new Client(url /* wss://<hostname>:<port> */,auth /* auth password */);
 
+// to connect
 client.connect();
+
+// to disconnect
+client.disconnect();
+
+// additionally, you can send commands programmatically by using this
+client.send(<commandString>)
 ```
 # Custom Commands
 Due to the technical limitations, we had to introduce some custom cli commands for certain works.
@@ -45,6 +61,8 @@ Due to the technical limitations, we had to introduce some custom cli commands f
 dirchange> : Works as a cd or chdir command. Same syntax.
 disconnect> : Disconnects from the server.
 ```
+
+`disconnect>` no longer stops the server.
 
 More commands will be introduced as we recieve requests.
 

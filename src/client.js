@@ -12,34 +12,40 @@ class Client {
 
     connect() {
         const wss = this.wscl
+        const url = this.url
+        console.log(`Attempting a connection to ${url}`)
         wss.on('open', () => {
-            console.log(`Connected to ${this.url}`)
+            console.log(`\x1b[32mConnected to ${url}`)
             const readline = require('node:readline').createInterface({
                 input: process.stdin,
                 output: process.stdout,
             })
             wss.on('message', (data) => {
                 const dt = JSON.parse(data.toString())
-                if (dt.file) {
-                    console.log("File recieved");
-                    if (!dt?.file?.userdir) {
-                        const filename = require('node:crypto').randomUUID()
-                        require('fs').writeFileSync(`${process.cwd()}/${filename}`,dt?.file?.content)
-                    } else {
-                        require('fs').writeFileSync(dt?.file?.userdir,dt?.file?.content)
-                    }
-                }
                 console.log(!dt?.output ? '\n' : dt?.output)
                 readline.question(`${dt.user}@${dt.path}$ `, (cmd) => {
+                    if (cmd.startsWith("disconnect>")) {
+                        wss.close(1000)
+                        process.exit(0);
+                    }
                     wss.send(cmd)
                 })
             })
         })
         wss.on('error', (err) => { throw new Error(err) })
         wss.on('close', (code, reason) => {
-            console.log(`\nConnected closed with code: ${code} and reason: ${reason}`)
+            console.log(`\n\x1b[31mConnection closed with code: ${code} and reason: ${reason}`)
             process.exit(0)
         })
+    }
+
+    send(cmd) {
+        this.wscl.send(cmd);
+    }
+
+    disconnect() {
+        this.wscl.close();
+        console.log(`Connection closed.`);
     }
 }
 

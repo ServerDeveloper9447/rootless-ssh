@@ -36,9 +36,6 @@ module.exports = (ws, cmd) => {
         }
         return 1;
     }
-    if (cmd.startsWith('disconnect>')) {
-        ws.close(1000);
-        process.exit(0);
-    }
+
     return 0;
 }
