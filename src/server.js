@@ -19,7 +19,16 @@ function formatPath(currentPath) {
         return currentPath.replaceAll("\\","/");
     }
 }
+const WELCOMEASCII = `
+__________               __  .__                           _________ _________ ___ ___  
+\\______   \\ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \\ 
+ |       _//  _ \\ /  _ \\   __\\  | _/ __ \\ /  ___//  ___/  \\_____  \\ \\_____  \\/    ~    \\
+ |    |   (  <_> |  <_> )  | |  |_\\  ___/ \\___ \\ \\___ \\   /        \\/        \\    Y    /
+ |____|_  /\\____/ \\____/|__| |____/\\___  >____  >____  > /_______  /_______  /\\___|_  / 
+        \\/                             \\/     \\/     \\/          \\/        \\/       \\/  
 
+Welcome!
+\x1b[32mSuccessfully connected.\x1b[0m`
 class Server {
     /**
      * 
@@ -27,25 +36,10 @@ class Server {
      * @param {httpServer} server External http server instance (optional)
      */
     constructor(options = {port:3000,auth:"changeme",path:'/ssh',welcomemsg:`
-__________               __  .__                           _________ _________ ___ ___  
-\______   \ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \ 
- |       _//  _ \ /  _ \   __\  | _/ __ \ /  ___//  ___/  \_____  \ \_____  \/    ~    \
- |    |   (  <_> |  <_> )  | |  |_\  ___/ \___ \ \___ \   /        \/        \    Y    /
- |____|_  /\____/ \____/|__| |____/\___  >____  >____  > /_______  /_______  /\___|_  / 
-        \/                             \/     \/     \/          \/        \/       \/  
-
 Welcome!
 \x1b[32mSuccessfully connected.`,logging:{input:false,output:false}}, server) {
-        this.options = { port:!options?.port ? 3000 : options?.port,auth: !options?.auth ? "changeme" : options?.auth,welcomemsg:Object.is(options?.welcomemsg,null) ? `
-__________               __  .__                           _________ _________ ___ ___  
-\______   \ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \ 
- |       _//  _ \ /  _ \   __\  | _/ __ \ /  ___//  ___/  \_____  \ \_____  \/    ~    \
- |    |   (  <_> |  <_> )  | |  |_\  ___/ \___ \ \___ \   /        \/        \    Y    /
- |____|_  /\____/ \____/|__| |____/\___  >____  >____  > /_______  /_______  /\___|_  / 
-        \/                             \/     \/     \/          \/        \/       \/  
-
-Welcome!
-\x1b[32mSuccessfully connected.\x1b[0m` : options?.welcomemsg, logging: !options?.logging ? {input:false,output:false} : options?.logging }
+        this.options = {
+            port: !options?.port ? 3000 : options?.port, auth: !options?.auth ? "changeme" : options?.auth, welcomemsg: Object.is(options?.welcomemsg, null) ? WELCOMEASCII : options?.welcomemsg, logging: !options?.logging ? {input:false,output:false} : options?.logging }
         try {
             this.user = require('os').userInfo().username
         } catch (err) {
@@ -76,16 +70,7 @@ Welcome!
             }
             console.log("\x1b[32mUser connected.\x1b[0m")
             ws.send(JSON.stringify({
-                status: 200, output: Object.is(options?.welcomemsg, null) ? "" : `
-__________               __  .__                           _________ _________ ___ ___  
-\______   \ ____   _____/  |_|  |   ____   ______ ______  /   _____//   _____//   |   \ 
- |       _//  _ \ /  _ \   __\  | _/ __ \ /  ___//  ___/  \_____  \ \_____  \/    ~    \
- |    |   (  <_> |  <_> )  | |  |_\  ___/ \___ \ \___ \   /        \/        \    Y    /
- |____|_  /\____/ \____/|__| |____/\___  >____  >____  > /_______  /_______  /\___|_  / 
-        \/                             \/     \/     \/          \/        \/       \/  
-
-Welcome!
-\x1b[32mSuccessfully connected.\x1b[0m`,platform:process.platform,path:formatPath(process.cwd()),user}))
+                status: 200, output: Object.is(options?.welcomemsg, null) ? "" : WELCOMEASCII,platform:process.platform,path:formatPath(process.cwd()),user}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
