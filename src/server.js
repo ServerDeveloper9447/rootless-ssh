@@ -104,6 +104,7 @@ Welcome!
                 ws.send(JSON.stringify({status:200,output:!exec ? "" : exec.toString(),path:formatPath(process.cwd()),user}))
             })
             ws.on('close', () => {
+                console.log("\x1b[31mUser disconnected.\x1b[0m")
                 process.chdir(startingDir)
             })
         })

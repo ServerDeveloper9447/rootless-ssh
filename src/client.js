@@ -26,6 +26,7 @@ class Client {
                 readline.question(`${dt.user}@${dt.path}$ `, (cmd) => {
                     if (cmd.startsWith("disconnect>")) {
                         wss.close(1000)
+                        console.log("\x1b[31mDisconnected from server.\x1b[0m")
                         process.exit(0);
                     }
                     wss.send(cmd)
