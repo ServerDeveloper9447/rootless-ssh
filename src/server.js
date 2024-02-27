@@ -75,7 +75,12 @@ Welcome!
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
                 if (funcs(ws, cmd) == 1) return;
-                const exec = execSync(cmd);
+                let exec;
+                try {
+                    exec = execSync(cmd);
+                } catch (err) {
+                    exec = err;
+                }
                 try {
                     if (logs.input) {
                         console.log(`Command recieved: ${cmd}`)
