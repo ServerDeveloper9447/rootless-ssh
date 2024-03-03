@@ -19,5 +19,8 @@
   "engines": {
     "node": ">=16"
   },
-  "os": ["linux","darwin","win32"]
+  "os": ["linux","darwin","win32"],
+  "contributors": [
+    "neverUsedDC (https://www.npmjs.com/~justcoding123)"
+  ]
 }

@@ -70,7 +70,7 @@ Welcome!
             }
             console.log("\x1b[32mUser connected.\x1b[0m")
             ws.send(JSON.stringify({
-                status: 200, output: Object.is(options?.welcomemsg, null) ? "" : WELCOMEASCII,platform:process.platform,path:formatPath(process.cwd()),user}))
+                status: 200, output: Object.is(options?.welcomemsg, null) ? "" : (Object.is(options?.welcomemsg,undefined) ? WELCOMEASCII : options?.welcomemsg),platform:process.platform,path:formatPath(process.cwd()),user}))
             ws.on('message', (data) => {
                 const cmd = data.toString()
                 // custom commands will be stopped from running on the shell
