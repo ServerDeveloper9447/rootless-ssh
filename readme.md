@@ -36,6 +36,9 @@ server.start();
 
 // to close the server
 server.stop();
+
+// to access the underlying websocket instance
+const ws = server.ws()
 ```
 **Note: Make sure to change the `auth` property as this can give an attacker access to your terminal. Even without root access, an attacker can do much damage to your system.**
 
@@ -54,6 +57,9 @@ client.disconnect();
 
 // additionally, you can send commands programmatically by using this
 client.send(<commandString>)
+
+// to access the underlying websocket connection
+const ws = client.ws()
 ```
 # Custom Commands
 Due to the technical limitations, we had to introduce some custom cli commands for certain works.
@@ -61,8 +67,6 @@ Due to the technical limitations, we had to introduce some custom cli commands f
 dirchange> : Works as a cd or chdir command. Same syntax.
 disconnect> : Disconnects from the server.
 ```
-
-`disconnect>` no longer stops the server.
 
 More commands will be introduced as we recieve requests.
 
