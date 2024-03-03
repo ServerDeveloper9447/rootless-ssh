@@ -21,6 +21,7 @@
   },
   "os": ["linux","darwin","win32"],
   "contributors": [
-    "neverUsedDC (https://www.npmjs.com/~justcoding123)"
+    "neverUsedDC (https://www.npmjs.com/~justcoding123)",
+    ""
   ]
 }

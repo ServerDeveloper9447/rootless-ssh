@@ -48,6 +48,10 @@ class Client {
         this.wscl.close();
         console.log(`Connection closed.`);
     }
+
+    ws() {
+        return this.wscl;
+    }
 }
 
 module.exports = Client

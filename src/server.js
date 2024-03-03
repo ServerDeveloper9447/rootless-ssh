@@ -104,6 +104,10 @@ Welcome!
         console.log("\x1b[31mClosing server.\x1b[0m");
         this.wsServer.close();
     }
+
+    ws() {
+        return this.wsServer;
+    }
 }
 
 module.exports = Server;
