@@ -38,9 +38,22 @@ server.start();
 server.stop();
 
 // to access the underlying websocket instance
-const ws = server.ws()
+const ws = server.ws();
 ```
 **Note: Make sure to change the `auth` property as this can give an attacker access to your terminal. Even without root access, an attacker can do much damage to your system.**
+## If you already have an express/http server, you can bind the websocket with it
+```js
+// for express
+const http = require('http'),
+    express = require('express'),
+    {Server} = require('rootless-ssh'),
+    app = express(),
+    server = http.createServer(app),
+    ssh = new Server({},server); // you can put the options in {}
+
+server.listen(3000);
+ssh.start(); // recommended to start ssh after starting the server
+```
 
 # Client Side
 This code would connect to the websocket and you would be able to enter commands on your console.
@@ -56,7 +69,7 @@ client.connect();
 client.disconnect();
 
 // additionally, you can send commands programmatically by using this
-client.send(<commandString>)
+client.send("<commandString>");
 
 // to access the underlying websocket connection
 const ws = client.ws()
