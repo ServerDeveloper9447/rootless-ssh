@@ -39,7 +39,8 @@ class Server {
 Welcome!
 \x1b[32mSuccessfully connected.`,logging:{input:false,output:false}}, server) {
         this.options = {
-            port: !options?.port ? 3000 : options?.port, auth: !options?.auth ? "changeme" : options?.auth, welcomemsg: Object.is(options?.welcomemsg, null) ? WELCOMEASCII : options?.welcomemsg, logging: !options?.logging ? {input:false,output:false} : options?.logging }
+            port:(!options?.server && !options?.port) ? 3000 : options?.port,auth: !options?.auth ? "changeme" : options?.auth, welcomemsg: Object.is(options?.welcomemsg, null) ? WELCOMEASCII : options?.welcomemsg, logging: !options?.logging ? { input: false, output: false } : options?.logging
+        }
         try {
             this.user = require('os').userInfo().username
         } catch (err) {
@@ -48,7 +49,7 @@ Welcome!
         if (!server) {
             this.wsServer = new ws({ port: !options?.port ? 3000 : options?.port, path: options?.path })
         } else {
-            this.wsServer = new ws({ port: options?.port, path: options?.path, server })
+            this.wsServer = new ws({ path: options?.path, server })
             this.httpServer = server;
         }
     }
