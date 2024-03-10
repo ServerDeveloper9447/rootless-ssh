@@ -80,6 +80,14 @@ Due to the technical limitations, we had to introduce some custom cli commands f
 dirchange> : Works as a cd or chdir command. Same syntax.
 disconnect> : Disconnects from the server.
 ```
+## Connecting from Command Line
+Install this package as global<br>
+`npm i rootless-ssh -g`
+
+Now from console, run
+`wssh "<host>" "<pass>"`
+or
+`npx wssh "<host>" "<pass>"`
 
 More commands will be introduced as we recieve requests.
 
