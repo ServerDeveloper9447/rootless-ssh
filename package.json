@@ -9,9 +9,17 @@
   "author": "ServerDeveloper9447",
   "license": "ISC",
   "dependencies": {
-    "ws": "^8.16.0"
+    "ws": "^8.18.1"
   },
-  "keywords": ["root","rootless","ssh","less","websocket","wss","ws"],
+  "keywords": [
+    "root",
+    "rootless",
+    "ssh",
+    "less",
+    "websocket",
+    "wss",
+    "ws"
+  ],
   "homepage": "https://github.com/ServerDeveloper9447/rootless-ssh",
   "bugs": {
     "url": "https://github.com/ServerDeveloper9447/rootless-ssh/issues"
@@ -19,11 +27,15 @@
   "engines": {
     "node": ">=16"
   },
-  "os": ["linux","darwin","win32"],
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
   "contributors": [
     "neverUsedDC (https://www.npmjs.com/~justcoding123)"
   ],
-  "bin":{
-    "wssh":"src/cli.js"
+  "bin": {
+    "wssh": "src/cli.js"
   }
 }

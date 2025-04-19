@@ -1,4 +1,3 @@
-
 const { execSync } = require('child_process')
 const ws = require('ws').Server
 const funcs = require('./commands')
